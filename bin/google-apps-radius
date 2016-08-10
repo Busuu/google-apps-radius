@@ -20,7 +20,7 @@ var googleAppsRadius = require('../');
 
 var argv = require('yargs')
   .usage('Usage: $0 --address <address> --port [port] --domain <domain> --secret <secret>')
-  .demand(['domain', 'secret'])
+  .demand(['secret'])
   .default('port', 1812)
   .string('address')
   .default('address', '0.0.0.0')
@@ -44,7 +44,7 @@ server.on('listening', function () {
 
 server.on('radius', function (e) {
   var type = e.status ? 'success' : 'failure';
-  console.log(now() + 'Authentication ' + type + ': ' + e.username + '@' + e.domain);
+  console.log(now() + 'Authentication ' + type + ': ' + e.username + (argv.domain ? '@' + e.domain : ''));
 });
 
 server.on('radius-error', function (err) {
