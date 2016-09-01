@@ -29,7 +29,7 @@ var argv = require('yargs')
     .argv;
 
 var server = googleAppsRadius.createServer({
-    domain: argv.domain,
+    acceptDomains: argv.acceptDomains,
     secret: argv.secret
 });
 
