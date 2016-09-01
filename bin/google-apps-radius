@@ -19,36 +19,36 @@
 var googleAppsRadius = require('../');
 
 var argv = require('yargs')
-  .usage('Usage: $0 --address <address> --port [port] --domain <domain> --secret <secret>')
-  .demand(['secret'])
-  .default('port', 1812)
-  .string('address')
-  .default('address', '0.0.0.0')
-  .string('domain')
-  .string('secret')
-  .argv;
+    .usage('Usage: $0 --address <address> --port [port] --domain <domain> --secret <secret>')
+    .demand(['secret'])
+    .default('port', 1812)
+    .string('address')
+    .default('address', '0.0.0.0')
+    .string('domain')
+    .string('secret')
+    .argv;
 
 var server = googleAppsRadius.createServer({
-  domain: argv.domain,
-  secret: argv.secret
+    domain: argv.domain,
+    secret: argv.secret
 });
 
 function now() {
-  return new Date().toISOString() + ': ';
+    return new Date().toISOString() + ': ';
 }
 
 server.on('listening', function () {
-  var address = server.address();
-  console.log(now() + 'Listening ' + address.address + ':' + address.port);
+    var address = server.address();
+    console.log(now() + 'Listening ' + address.address + ':' + address.port);
 });
 
 server.on('radius', function (e) {
-  var type = e.status ? 'success' : 'failure';
-  console.log(now() + 'Authentication ' + type + ': ' + e.username + (argv.domain ? '@' + e.domain : ''));
+    var type = e.status ? 'success' : 'failure';
+    console.log(now() + 'Authentication ' + type + ': ' + e.username + (argv.domain ? '@' + e.domain : ''));
 });
 
 server.on('radius-error', function (err) {
-  console.log(now() + err.message);
+    console.log(now() + err.message);
 });
 
 server.bind(argv.port, argv.address);
