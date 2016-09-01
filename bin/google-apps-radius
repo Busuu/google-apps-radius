@@ -44,7 +44,7 @@ server.on('listening', function () {
 
 server.on('radius', function (e) {
     var type = e.status ? 'success' : 'failure';
-    console.log(now() + 'Authentication ' + type + ': ' + e.username + (argv.domain ? '@' + e.domain : ''));
+    console.log(now() + 'Authentication ' + type + ': ' + e.username);
 });
 
 server.on('radius-error', function (err) {
